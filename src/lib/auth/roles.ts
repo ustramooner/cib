@@ -1,3 +1,5 @@
+import { Session } from 'next-auth'
+
 export type UserRole = 'admin' | 'volunteer' | 'user' | 'sysadmin'
 
 export interface Permission {
@@ -54,11 +56,16 @@ export function getAccessibleModules(userRole: UserRole | undefined): string[] {
   return rolePermissions[userRole].map(p => p.module)
 }
 
-export function getUserRoleFromSession(session: any): UserRole | undefined {
+export function getUserRoleFromSession(session: Session | null): UserRole | undefined {
   // This would typically come from your database/session
   // For demo purposes, we'll use a default role or check session data
   if (!session?.user) return undefined
   
-  // Check if user has a role in their profile
-  return session.user.role || 'user'
+  // Check if user has a role in their profile and validate it's a valid UserRole
+  const userRole = session.user.role
+  if (userRole && ['admin', 'volunteer', 'user', 'sysadmin'].includes(userRole)) {
+    return userRole as UserRole
+  }
+  
+  return 'user' // Default role
 } 

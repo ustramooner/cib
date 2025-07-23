@@ -194,7 +194,7 @@ export default function HomePage() {
             <RoleSelector currentRole={currentRole} onRoleChange={setCurrentRole} />
             
             <div className="text-sm text-gray-500 bg-gray-50 rounded p-4">
-              <h3 className="font-medium mb-2">Current permissions for "{currentRole}" role:</h3>
+              <h3 className="font-medium mb-2">Current permissions for &quot;{currentRole}&quot; role:</h3>
               <div className="flex flex-wrap gap-2">
                 {rolePermissions[currentRole].map(module => (
                   <span key={module} className="px-2 py-1 bg-blue-100 text-blue-800 rounded text-xs">

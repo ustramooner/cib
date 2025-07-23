@@ -83,7 +83,7 @@ const { handlers } = NextAuth({
   pages: {
     signIn: '/auth/signin',
   },
-  secret: process.env.NEXTAUTH_SECRET || 'dev-secret-key-change-in-production',
+  secret: process.env.NEXTAUTH_SECRET,
 })
 
 export const { GET, POST } = handlers 
