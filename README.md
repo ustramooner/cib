@@ -2,6 +2,14 @@
 
 A comprehensive Next.js platform for campaign management and organization with PostgreSQL database, Prisma ORM, NextAuth authentication, and a modular architecture.
 
+## 🚀 Quick Deploy
+
+Deploy this campaign management platform to Vercel with one click:
+
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fustramooner%2Fcib&env=DATABASE_URL,NEXTAUTH_SECRET,GOOGLE_CLIENT_ID,GOOGLE_CLIENT_SECRET&envDescription=Required%20environment%20variables%20for%20deployment&envLink=https%3A%2F%2Fgithub.com%2Fustramooner%2Fcib%23environment-variables&integration-ids=oac_neLUYBELgOFQO5zZvDeTKmkN)
+
+> **✨ This deployment automatically provisions a PostgreSQL database via Neon and sets up all required environment variables during the deployment process.**
+
 ## 🚀 Features
 
 - **Modern Tech Stack**: Next.js 15, React 19, TypeScript, Tailwind CSS
@@ -138,6 +146,25 @@ NATIONBUILDER_SLUG=your_nation_slug
 NATIONBUILDER_TOKEN=your_nationbuilder_token
 ```
 
+### Deployment Configuration
+
+When deploying to Vercel, the deployment process will:
+1. **Automatically provision a PostgreSQL database** via Neon integration
+2. **Set the `DATABASE_URL`** environment variable automatically
+3. **Prompt you to configure** the remaining environment variables
+
+#### Required Environment Variables
+- `DATABASE_URL`: ✅ **Automatically set** by Neon integration
+- `NEXTAUTH_SECRET`: A random secret for JWT encryption (generate with `openssl rand -base64 32`)
+
+#### Required for Authentication
+- `GOOGLE_CLIENT_ID`: Google OAuth client ID
+- `GOOGLE_CLIENT_SECRET`: Google OAuth client secret
+
+#### Optional Integrations
+- `NATIONBUILDER_SLUG`: Your NationBuilder nation slug
+- `NATIONBUILDER_TOKEN`: NationBuilder API token
+
 ## 📝 Development
 
 ### Available Scripts
@@ -195,7 +222,7 @@ src/
 
 1. **Environment Setup**:
    ```bash
-   cp .env.example .env.local
+   cp .env.example .env
    # Configure your environment variables
    ```
 
