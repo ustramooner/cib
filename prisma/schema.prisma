@@ -1,0 +1,87 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Profile {
+  id         String   @id @default(cuid())
+  createdAt  DateTime @default(now()) @map("created_at")
+  updatedAt  DateTime @updatedAt @map("updated_at")
+  email      String?  @unique
+  fullName   String?  @map("full_name")
+  avatarUrl  String?  @map("avatar_url")
+  role       Role     @default(USER)
+  isActive   Boolean  @default(true) @map("is_active")
+  password   String   // For authentication
+
+  // Relations
+  campaignsCreated Campaign[]  @relation("CampaignCreator")
+  volunteer        Volunteer?
+
+  @@map("profiles")
+}
+
+model Campaign {
+  id          String         @id @default(cuid())
+  createdAt   DateTime       @default(now()) @map("created_at")
+  updatedAt   DateTime       @updatedAt @map("updated_at")
+  name        String
+  description String?
+  status      CampaignStatus @default(DRAFT)
+  startDate   DateTime?      @map("start_date")
+  endDate     DateTime?      @map("end_date")
+  createdBy   String         @map("created_by")
+
+  // Relations
+  creator Profile @relation("CampaignCreator", fields: [createdBy], references: [id], onDelete: Cascade)
+
+  @@map("campaigns")
+}
+
+model Volunteer {
+  id           String            @id @default(cuid())
+  createdAt    DateTime          @default(now()) @map("created_at")
+  updatedAt    DateTime          @updatedAt @map("updated_at")
+  profileId    String            @unique @map("profile_id")
+  skills       String[]
+  availability String?
+  notes        String?
+  status       VolunteerStatus   @default(PENDING)
+
+  // Relations
+  profile Profile @relation(fields: [profileId], references: [id], onDelete: Cascade)
+
+  @@map("volunteers")
+}
+
+enum Role {
+  ADMIN
+  VOLUNTEER
+  USER
+
+  @@map("role")
+}
+
+enum CampaignStatus {
+  DRAFT
+  ACTIVE
+  COMPLETED
+  ARCHIVED
+
+  @@map("campaign_status")
+}
+
+enum VolunteerStatus {
+  ACTIVE
+  INACTIVE
+  PENDING
+
+  @@map("volunteer_status")
+} 
